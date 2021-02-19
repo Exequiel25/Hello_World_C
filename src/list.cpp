@@ -13,7 +13,7 @@ void List::print_menu(){
     cin >> choice;
 
     if(choice == 4){
-        exit(0);
+        return;
     }else if(choice == 1){
         print_list();
     }else if(choice == 2){
