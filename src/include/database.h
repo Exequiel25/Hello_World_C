@@ -9,6 +9,8 @@ class Database{
 
     Database(){}
 
-    void write(vector<string> list);
-    void read();
+    vector<vector<string>> mainList;
+
+    void write(vector<vector<string>>);
+    vector<vector<string>> read();
 };

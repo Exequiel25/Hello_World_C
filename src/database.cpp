@@ -1,11 +1,21 @@
 #include "include/database.h"
 
-void Database::write(vector<string> list){
+void Database::write(vector<vector<string>> mainList){
     ofstream db;
     db.open("db/lists.sl");
 
     if(db.is_open()){
-        for(int i=0; i<list.size(); i++) db << list[i] << endl;
+        for(int user_index=0; user_index<mainList.size(); user_index++){
+            for(int list_index=0; list_index<mainList[user_index].size(); list_index++){
+                if(list_index == 0){
+                    db << "#" << mainList[user_index][list_index] << endl;
+                }else {
+                    db << mainList[user_index][list_index] << endl;
+                }
+            }
+
+            db << "%" << endl;
+        }
 
     }else {
         cout<<"Cannot open the file"<<endl;
@@ -14,8 +24,11 @@ void Database::write(vector<string> list){
     db.close();
 }
 
-void Database::read(){
+vector<vector<string>> Database::read(){
     ifstream db;
+
+    vector<string> userList;
+
     db.open("db/lists.sl");
 
     string line;
@@ -24,11 +37,13 @@ void Database::read(){
 
         while( getline(db, line, '\n') ){
             if( line.front() == '#'){
-
+                line.erase(line.begin());
+                userList.push_back(line);
             }else if( line.front() == '%'){
-
+                mainList.push_back(userList);
+                userList.clear();
             }else {
-                
+                userList.push_back(line);
             }
         }
 
@@ -37,4 +52,6 @@ void Database::read(){
     }
 
     db.close();
+
+    return mainList;
 }
